@@ -1,0 +1,36 @@
+<div class="file-upload">
+  <div
+    class="drag-drop"
+    (drop)="onFileDrop($event)"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    [class.drag-over]="isDragOver"
+  >
+    <div style="color: gray">File Format: .csv</div>
+    <div style="color: gray">Drag and drop your file here</div>
+    <div style="color: gray">OR</div>
+    <button mat-raised-button color="primary" (click)="fileInput.click()">
+      Choose file
+    </button>
+    <input
+      #fileInput
+      type="file"
+      (change)="onFileSelected($event)"
+      accept=".csv"
+    />
+  </div>
+  <p *ngIf="selectedFile">Selected file: {{ selectedFile.name }}</p>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="uploadFile()"
+    [disabled]="!selectedFile || isLoading"
+  >
+    <div *ngIf="isLoading">
+      <mat-spinner strokeWidth="3" [diameter]="25"></mat-spinner>
+    </div>
+    <div *ngIf="!isLoading">Upload</div>
+  </button>
+
+  <mat-error *ngIf="error">{{ error }}</mat-error>
+</div>
